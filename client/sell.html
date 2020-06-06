@@ -1,0 +1,50 @@
+<template name = "sell_form">
+	<div class="container">
+		<form class="item_details">
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input type="text" class="form-control" id="title" placeholder="What are you selling?" required="true">
+			</div>
+			<div class="form-group">
+				<label for="Description">Description</label>
+				<textarea class="form-control" rows="3" id = "Description" placeholder="Descibe your product" required="true"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="radio-inline">
+					<input type="radio" name="inlineRadioOptions" id="new" value="new" class="js-options" required="true"> New
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="inlineRadioOptions" id="used" value="used" class="js-options" required="true"> Used
+				</label>
+			</div>
+			<div class="form-group js-toggle-vis hide">
+				<input type="text" class="form-control" id="usetime" placeholder="Duration used">
+			</div>
+			<div class="form-group">  
+				<label for="options">Category</label>
+				<select class="form-control" id="options" required="true">
+				  <option>1</option>
+				  <option>2</option>
+				  <option>3</option>
+				  <option>4</option>
+				  <option>5</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="location">Location</label>
+				<div class="input-group">
+					<span class="input-group-addon" id="loc"><i class="fa fa-map-marker"></i></span>
+			        <input type="text" class="form-control" id="location" placeholder="Where are you selling this from?" aria-describedby="loc" required="true">
+		        </div>
+		    </div> 
+		    <div class="form-group">
+		    	<label for="price">Price</label>
+				<div class="input-group">
+					<span class="input-group-addon" id="rup"><i class="fa fa-rupee"></i></span>
+			        <input type="number" class="form-control" id="price" placeholder="The price you wish to sell this item for" aria-describedby="rup" required="true">
+		        </div>
+		    </div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</template>
