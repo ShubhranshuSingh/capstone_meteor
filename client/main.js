@@ -7,6 +7,7 @@ import './nav.html';
 import './home.html';
 import './sell.html';
 
+// Iron Router
 Router.configure({
 	layoutTemplate: 'ApplicationLayout'
 });
@@ -15,10 +16,11 @@ Router.route('/', function () {
 	this.render("Home");
 });
 
-Router.route('/sell', function() {
+Router.route('/sell', function () {
 	this.render('sell_form');
 });
 
+// Events 
 Template.sell_form.events({
 	'click .js-options': function (event) {
 		if (event.target.value == "used") {
@@ -45,8 +47,19 @@ Template.sell_form.events({
 			duration: duration,
 			category: target.options.value,
 			location: target.location.value,
-			price: parseInt(target.price.value)
+			price: parseInt(target.price.value),
+			createdAt: new Date()
 		};
 		Items.insert(details);
+
+		Router.go('/');
+	},
+});
+
+// Helpers
+
+Template.Home.helpers({
+	ad: function () {
+		return Items.find({}, {sort: {'createdAt' : -1} });
 	},
 });

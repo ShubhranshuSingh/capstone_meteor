@@ -1,3 +1,44 @@
 <template name = "Home">
-  <h1> Welcome to my Site!</h1>
+
+	<div class="container">
+
+		<div class="row">
+
+			<div class="col-lg-3">
+				<h2> Categories: </h2>
+				<div class="list-group">
+					<a href="#" class="list-group-item">Category 1</a>
+					<a href="#" class="list-group-item">Category 2</a>
+					<a href="#" class="list-group-item">Category 3</a>
+					<a href="#" class="list-group-item">Category 4</a>
+					<a href="#" class="list-group-item">Category 5</a>
+				</div>
+
+			</div>
+
+			<div class="col-lg-9">
+
+				<div class="row">
+					{{#each ad }}
+						<div class="col-lg-4 col-md-6 mb-4">
+							<div class="thumbnail">
+					  	 		<a href="#"><img class="js-image thumbnail-img"  src="http://placehold.it/700x400" alt="700x400" /></a> 
+					  			
+						  		<div class="caption">
+						  			<h2> {{title}} </h2>
+						  			<h3>Price: <i class="fa fa-rupee"></i> {{price}}</h3>
+						        	<p>
+						        		{{desc}}
+						        	</p>
+						        	<h4><i class="fa fa-map-marker"></i> {{location}}</h4>
+						        	<h4>Condition: {{use}} </h4>
+						     	</div>
+					     	</div>
+						</div>
+					{{ /each }}
+				</div>
+			</div>
+		</div>
+
+	</div>
 </template>
