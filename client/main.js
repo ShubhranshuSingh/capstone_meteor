@@ -6,6 +6,12 @@ import './main.html';
 import './nav.html';
 import './home.html';
 import './sell.html';
+import './item.html';
+
+// Config Form
+Accounts.ui.config({
+	passwordSignupFields:'USERNAME_AND_EMAIL'
+});
 
 // Iron Router
 Router.configure({
@@ -13,17 +19,25 @@ Router.configure({
 });
 
 Router.route('/', function () {
-	this.render("Home");
+	this.render('Home');
 });
 
 Router.route('/sell', function () {
 	this.render('sell_form');
 });
 
+Router.route('/item/:id', function () {
+	this.render('item', {
+		data: function() {
+			return Items.findOne({_id:this.params.id});
+		}
+	});
+});
+
 // Events 
 Template.sell_form.events({
 	'click .js-options': function (event) {
-		if (event.target.value == "used") {
+		if (event.target.value == 'used') {
 			$('.js-toggle-vis').removeClass('hide');
 		}
 		else {

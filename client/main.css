@@ -8,6 +8,23 @@ body {
 	word-wrap:break-word;
 }
 
-.thumbnail-img{
+.thumbnail-img {
 	max-height:200px;
+}
+
+.thumb {
+	display: block;
+ 	margin-left: auto;
+  	margin-right: auto;
+	height:100px;
+	width: 100px;
+}
+
+.title,
+.description{
+	margin-top: 20px;
+}
+
+.profile {
+	background-color: azure;
 }
