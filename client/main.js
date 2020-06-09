@@ -37,7 +37,7 @@ Router.route('/item/:id', function () {
 // Events 
 Template.sell_form.events({
 	'click .js-options': function (event) {
-		if (event.target.value == 'used') {
+		if (event.target.value == 'Used') {
 			$('.js-toggle-vis').removeClass('hide');
 		}
 		else {
@@ -49,11 +49,12 @@ Template.sell_form.events({
 
 		const target = event.target;
 		var duration = 0;
-		if(target.inlineRadioOptions.value == 'used') {
+		if(target.inlineRadioOptions.value == 'Used') {
 			if(target.usetime.value) {
-				duration = parseInt(target.usetime.value);
+				duration = target.usetime.value;
 			}
 		}
+		var user = Meteor.user();
 		var details = {
 			title: target.title.value,
 			desc: target.Description.value,
@@ -62,7 +63,8 @@ Template.sell_form.events({
 			category: target.options.value,
 			location: target.location.value,
 			price: parseInt(target.price.value),
-			createdAt: new Date()
+			createdAt: new Date(),
+			user_id: user._id
 		};
 		Items.insert(details);
 
@@ -76,4 +78,24 @@ Template.Home.helpers({
 	ad: function () {
 		return Items.find({}, {sort: {'createdAt' : -1} });
 	},
+});
+
+Template.item.helpers({
+	name: function (id) {
+		var user = Meteor.users.findOne({_id:id});
+		return user.username;
+	},
+
+	mail: function (id) {
+		var user = Meteor.users.findOne({_id:id});
+		return user.emails[0].address;
+	},
+
+	cond: function (item_id) {
+		var obj = Items.findOne({_id:item_id});
+		if (obj.use == 'Used') {
+			return 'Used for ' + obj.duration; 
+		}
+		else return 'New';
+	}
 });
