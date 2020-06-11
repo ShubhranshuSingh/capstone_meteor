@@ -25,7 +25,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
-          <li><a href="#">Profile</a></li>
+          <li><a href="/user/{{currentUser._id}}">Profile</a></li>
           <li><a href="/sell">Sell</a></li>
         {{/if}}
         <div class="navbar-text"><li>{{> loginButtons align="right"}}</li></div>

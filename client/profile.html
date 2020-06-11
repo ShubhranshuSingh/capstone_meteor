@@ -1,0 +1,41 @@
+<template name = 'profile'>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="bound">
+					<img src="http://placehold.it/700x400" class="img-circle thumb" />
+					<h1> Name </h1>
+					<h3> Email </h3>
+				</div>
+				<ul class="nav flex-column">
+				  <li class="nav-item">
+				    <a class="nav-link active" href="#">Active</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" href="#">Sold</a>
+				  </li>
+				</ul>
+			</div>
+			<div class="col-lg-8">
+				{{#each active}}
+					<div class="col-lg-4 col-md-6 mb-4">
+							<div class="thumbnail">
+					  	 		<a href="/item/{{_id}}"><img class="js-image thumbnail-img"  src="http://placehold.it/700x400" alt="700x400" /></a> 
+					  			
+						  		<div class="caption">
+						  			<h2> {{title}} </h2>
+						  			<h3>Price: <i class="fa fa-rupee"></i> {{price}}</h3>
+						        	<p>
+						        		{{desc}}
+						        	</p>
+						        	<h4><i class="fa fa-map-marker"></i> {{location}}</h4>
+						        	<h4>Condition: {{use}} </h4>
+						        	<button class="btn btn-danger js-del">Delete</button>
+						     	</div>
+					     	</div>
+						</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</template>

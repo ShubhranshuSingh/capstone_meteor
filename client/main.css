@@ -28,3 +28,9 @@ body {
 .profile {
 	background-color: azure;
 }
+
+.bound {
+	text-align: center;
+	padding: 5px;
+	border: 1px solid #ddd;
+}

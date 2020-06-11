@@ -7,6 +7,7 @@ import './nav.html';
 import './home.html';
 import './sell.html';
 import './item.html';
+import './profile.html';
 
 // Config Form
 Accounts.ui.config({
@@ -32,6 +33,11 @@ Router.route('/item/:id', function () {
 			return Items.findOne({_id:this.params.id});
 		}
 	});
+});
+
+Router.route('/user/:id', function () {
+	if(!Meteor.user() || Meteor.user()._id != this.params.id) Router.go('/');
+	else this.render('profile');
 });
 
 // Events 
@@ -72,6 +78,12 @@ Template.sell_form.events({
 	},
 });
 
+Template.profile.events({
+	'click .js-del': function (event) {	
+		Items.remove({_id:this._id});
+	},
+});
+
 // Helpers
 
 Template.Home.helpers({
@@ -99,3 +111,10 @@ Template.item.helpers({
 		else return 'New';
 	}
 });
+
+Template.profile.helpers({
+	active: function () {
+		var user = Meteor.user();
+		return Items.find({user_id:user._id});
+	}
+})
