@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Items } from '../imports/api/collections.js';
+import { SoldItems } from '../imports/api/collections.js';
 
 import './main.html';
 import './nav.html';
@@ -8,6 +9,8 @@ import './home.html';
 import './sell.html';
 import './item.html';
 import './profile.html';
+import './active.html';
+import './sold.html';
 
 // Config Form
 Accounts.ui.config({
@@ -37,7 +40,28 @@ Router.route('/item/:id', function () {
 
 Router.route('/user/:id', function () {
 	if(!Meteor.user() || Meteor.user()._id != this.params.id) Router.go('/');
-	else this.render('profile');
+	else {
+		Session.set('active', true);
+		this.render('profile', {
+			data: function() {
+				var user = Meteor.user();
+				return {item: Items.find({user_id:user._id})};
+			}
+			});
+		};
+});
+
+Router.route('/user/:id/sold', function () {
+	if(!Meteor.user() || Meteor.user()._id != this.params.id) Router.go('/');
+	else {
+		Session.set('active', false);
+		this.render('profile', {
+			data: function() {
+				var user = Meteor.user();
+				return {item: SoldItems.find({user_id:user._id})};
+			}
+			});
+		};
 });
 
 // Events 
@@ -79,8 +103,20 @@ Template.sell_form.events({
 });
 
 Template.profile.events({
-	'click .js-del': function (event) {	
-		Items.remove({_id:this._id});
+	'click .js-del': function (event) {
+		var ad = this;
+		ad['createdAt'] = new Date;
+		SoldItems.insert(ad);
+		$('#Modal_warn').modal('hide');
+		$('body').removeClass('modal-open');
+		$('.modal-backdrop').remove();
+		$('#'+this._id).fadeOut(1000, function(){
+	      	Items.remove({_id:this.id});
+	    });	
+	},
+	'click li': function (event) {
+		$('li').removeClass('active');
+		$(event.target.parentElement).addClass('active');
 	},
 });
 
@@ -113,8 +149,21 @@ Template.item.helpers({
 });
 
 Template.profile.helpers({
-	active: function () {
+	mail: function () {
 		var user = Meteor.user();
-		return Items.find({user_id:user._id});
+		return user.emails[0].address;
+	},
+	name: function () {
+		var user = Meteor.user();
+		return user.username;
+	},
+	active: function () {
+		return Session.get('active');
 	}
+});
+
+Template.sold_items.helpers({
+	showdate: function (date) {
+		return date.toDateString();
+	},
 })

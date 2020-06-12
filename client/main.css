@@ -4,7 +4,7 @@ body {
 }
 
 .thumbnail {
-	height:400px;
+	height:450px;
 	word-wrap:break-word;
 }
 
@@ -33,4 +33,12 @@ body {
 	text-align: center;
 	padding: 5px;
 	border: 1px solid #ddd;
+}
+
+.modal-header .close {
+    margin-top: -20px;
+}
+
+.addpad {
+	padding-bottom: 10px;
 }
