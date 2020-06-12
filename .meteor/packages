@@ -26,3 +26,4 @@ accounts-ui
 accounts-password
 iron:router
 fortawesome:fontawesome
+session
