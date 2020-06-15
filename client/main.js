@@ -45,7 +45,7 @@ Router.route('/user/:id', function () {
 		this.render('profile', {
 			data: function() {
 				var user = Meteor.user();
-				return {item: Items.find({user_id:user._id})};
+				return {item: Items.find({user_id:user._id}, {sort: {'createdAt' : -1}})};
 			}
 			});
 		};
@@ -58,7 +58,7 @@ Router.route('/user/:id/sold', function () {
 		this.render('profile', {
 			data: function() {
 				var user = Meteor.user();
-				return {item: SoldItems.find({user_id:user._id})};
+				return {item: SoldItems.find({user_id:user._id}, {sort: {'createdAt' : -1}})};
 			}
 			});
 		};
@@ -85,13 +85,15 @@ Template.sell_form.events({
 			}
 		}
 		var user = Meteor.user();
+		if(!user) Router.go('/');
 		var details = {
 			title: target.title.value,
 			desc: target.Description.value,
 			use: target.inlineRadioOptions.value,
 			duration: duration,
 			category: target.options.value,
-			location: target.location.value,
+			city: target.city.value,
+			state: target.state.value,
 			price: parseInt(target.price.value),
 			createdAt: new Date(),
 			user_id: user._id
@@ -121,6 +123,10 @@ Template.profile.events({
 });
 
 // Helpers
+
+Template.registerHelper('showdate', function (date) {
+	return date.toDateString();
+});
 
 Template.Home.helpers({
 	ad: function () {
@@ -161,9 +167,3 @@ Template.profile.helpers({
 		return Session.get('active');
 	}
 });
-
-Template.sold_items.helpers({
-	showdate: function (date) {
-		return date.toDateString();
-	},
-})
