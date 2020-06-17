@@ -12,6 +12,11 @@ import './profile.html';
 import './active.html';
 import './sold.html';
 
+// Subscribe to collections
+
+Meteor.subscribe('Items');
+Meteor.subscribe('SoldItems');
+
 // Config Form
 Accounts.ui.config({
 	passwordSignupFields:'USERNAME_AND_EMAIL'
@@ -31,6 +36,8 @@ Router.route('/sell', function () {
 });
 
 Router.route('/item/:id', function () {
+	var item = Items.findOne({_id:this.params.id});
+	if(item) this.subscribe('user', item.user_id).wait();
 	this.render('item', {
 		data: function() {
 			return Items.findOne({_id:this.params.id});
@@ -58,7 +65,7 @@ Router.route('/user/:id/sold', function () {
 		this.render('profile', {
 			data: function() {
 				var user = Meteor.user();
-				return {item: SoldItems.find({user_id:user._id}, {sort: {'createdAt' : -1}})};
+				return {item: SoldItems.find({}, {sort: {'createdAt' : -1}})};
 			}
 			});
 		};
@@ -137,12 +144,14 @@ Template.Home.helpers({
 Template.item.helpers({
 	name: function (id) {
 		var user = Meteor.users.findOne({_id:id});
-		return user.username;
+		if (user) return user.username;
+		return;
 	},
 
 	mail: function (id) {
 		var user = Meteor.users.findOne({_id:id});
-		return user.emails[0].address;
+		if (user) return user.emails[0].address;
+		return;
 	},
 
 	cond: function (item_id) {
@@ -157,11 +166,11 @@ Template.item.helpers({
 Template.profile.helpers({
 	mail: function () {
 		var user = Meteor.user();
-		return user.emails[0].address;
+		if(user) return user.emails[0].address;
 	},
 	name: function () {
 		var user = Meteor.user();
-		return user.username;
+		if(user) return user.username;
 	},
 	active: function () {
 		return Session.get('active');
