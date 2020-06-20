@@ -3,7 +3,7 @@ An online marketplace made using Meteor, HTML5, CSS bootstrap, JS and Jquery!
 
  :exclamation: Currently Under Development :exclamation:
 
-Get started by:
+Get started:
 1. Install Meteor - https://www.meteor.com/install
 2. Clone this repo and run the follwing commands:
 ```
