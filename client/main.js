@@ -32,7 +32,8 @@ Router.route('/', function () {
 });
 
 Router.route('/sell', function () {
-	this.render('sell_form');
+	if(!Meteor.user()) Router.go('/');
+	else this.render('sell_form');
 });
 
 Router.route('/item/:id', function () {
@@ -105,7 +106,7 @@ Template.sell_form.events({
 			createdAt: new Date(),
 			user_id: user._id
 		};
-		Items.insert(details);
+		Meteor.call('additem', details);
 
 		Router.go('/');
 	},
@@ -115,12 +116,12 @@ Template.profile.events({
 	'click .js-del': function (event) {
 		var ad = this;
 		ad['createdAt'] = new Date;
-		SoldItems.insert(ad);
+		Meteor.call('solditem', ad);
 		$('#Modal_warn').modal('hide');
 		$('body').removeClass('modal-open');
 		$('.modal-backdrop').remove();
 		$('#'+this._id).fadeOut(1000, function(){
-	      	Items.remove({_id:this.id});
+	      	Meteor.call('removeitem', this.id);
 	    });	
 	},
 	'click li': function (event) {

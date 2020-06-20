@@ -9,9 +9,13 @@
 					<h4> Posted On - {{showdate createdAt}}</h4>
 				</div>
 				<div class="well profile">
-					<img src="http://placehold.it/700x400" class="img-circle thumb" />
-					<h1> Seller - {{name user_id}}</h1>
-					<h3> Email - {{mail user_id}}</h3>
+					{{#if currentUser}}
+						<img src="http://placehold.it/700x400" class="img-circle thumb" />
+						<h1> Seller - {{name user_id}}</h1>
+						<h3> Email - {{mail user_id}}</h3>
+					{{else}}
+						<h2> Login to contact the seller</h2>
+					{{/if}}
 				</div>
 			</div>
 
