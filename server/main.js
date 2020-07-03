@@ -34,3 +34,15 @@ Meteor.methods({
 		Items.remove({_id:id});
 	}
 });
+
+//Cloudinary
+
+Cloudinary.config({
+    cloud_name: Meteor.settings.private.cloud_name,
+    api_key: Meteor.settings.private.api_key,
+    api_secret: Meteor.settings.private.api_secret
+});
+
+Cloudinary.rules.signature = function() {
+  return this.userId;
+};

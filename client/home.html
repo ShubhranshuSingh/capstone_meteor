@@ -7,11 +7,11 @@
 			<div class="col-lg-3">
 				<h2> Categories </h2>
 				<div class="list-group">
-					<a href="#" class="list-group-item">Category 1</a>
-					<a href="#" class="list-group-item">Category 2</a>
-					<a href="#" class="list-group-item">Category 3</a>
-					<a href="#" class="list-group-item">Category 4</a>
-					<a href="#" class="list-group-item">Category 5</a>
+					<a href="/category/1" class="list-group-item" id='1'>Category 1</a>
+					<a href="/category/2" class="list-group-item" id='2'>Category 2</a>
+					<a href="/category/3" class="list-group-item" id='3'>Category 3</a>
+					<a href="/category/4" class="list-group-item" id='4'>Category 4</a>
+					<a href="/category/5" class="list-group-item" id='5'>Category 5</a>
 				</div>
 
 			</div>
@@ -26,7 +26,7 @@
 					{{#each ad }}
 						<div class="col-lg-4 col-md-6 mb-4">
 							<div class="thumbnail">
-					  	 		<a href="/item/{{_id}}"><img class="js-image thumbnail-img"  src="http://placehold.it/700x400" alt="700x400" /></a> 
+					  	 		<a href="/item/{{_id}}"><img class="js-image thumbnail-img"  src="{{c.url public_id}}" alt="700x400" /></a> 
 					  			
 						  		<div class="caption">
 						  			<h2> {{title}} </h2>

@@ -28,7 +28,11 @@ Router.configure({
 });
 
 Router.route('/', function () {
-	this.render('Home');
+	this.render('Home',{
+		data: function() {
+			return {ad: Items.find({}, {sort: {'createdAt' : -1}})};
+		}
+	});
 });
 
 Router.route('/sell', function () {
@@ -72,6 +76,13 @@ Router.route('/user/:id/sold', function () {
 		};
 });
 
+Router.route('category/:cat', function () {
+	this.render('Home', {
+		data: function() {
+			return {ad: Items.find({category: this.params.cat}, {sort: {'createdAt' : -1}})};
+		}
+	});
+});
 // Events 
 Template.sell_form.events({
 	'click .js-options': function (event) {
@@ -94,19 +105,29 @@ Template.sell_form.events({
 		}
 		var user = Meteor.user();
 		if(!user) Router.go('/');
-		var details = {
-			title: target.title.value,
-			desc: target.Description.value,
-			use: target.inlineRadioOptions.value,
-			duration: duration,
-			category: target.options.value,
-			city: target.city.value,
-			state: target.state.value,
-			price: parseInt(target.price.value),
-			createdAt: new Date(),
-			user_id: user._id
-		};
-		Meteor.call('additem', details);
+
+	    var files = event.target['image'].files;
+
+	    Cloudinary.upload(files, {
+	    	api_key: Meteor.settings.public.api_key
+	    }, function(err, res) {
+	    	if(err) return;
+
+	    	var details = {
+				title: target.title.value,
+				desc: target.Description.value,
+				use: target.inlineRadioOptions.value,
+				duration: duration,
+				category: target.options.value,
+				city: target.city.value,
+				state: target.state.value,
+				price: parseInt(target.price.value),
+				createdAt: new Date(),
+				user_id: user._id,
+				public_id:res['public_id']
+			};
+			Meteor.call('additem', details);
+	    });
 
 		Router.go('/');
 	},
@@ -134,12 +155,6 @@ Template.profile.events({
 
 Template.registerHelper('showdate', function (date) {
 	return date.toDateString();
-});
-
-Template.Home.helpers({
-	ad: function () {
-		return Items.find({}, {sort: {'createdAt' : -1} });
-	},
 });
 
 Template.item.helpers({
@@ -176,4 +191,11 @@ Template.profile.helpers({
 	active: function () {
 		return Session.get('active');
 	}
+});
+
+// Cloudinary 
+
+$.cloudinary.config({
+	cloud_name: Meteor.settings.public.cloud_name,
+	api_key: Meteor.settings.public.api_key
 });
